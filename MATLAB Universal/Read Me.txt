@@ -1,0 +1,8 @@
+General: 
+This is a folder for general functions, scripts, etc... which I would like to always be included in the MATLAB path. The code that resides here should, once updated, not require past versions to be used with any appreciable frequency. Older versions are to be stored within the sub-folder denoted as being for that purpose. 
+
+Wrapper functions:
+At least as of version R2018a, MATLAB is poorly coded in that it does not allow some settings to have their defaults changed without being overridden by other defaults. The best fix I found to this is writing little wrapper functions that have the defaults built in. If values other than the defaults are desired, simply call the functions as you normally would. Note that I do not name these wrapper functions with my usual "FUNC_..." naming convention, I merely put "my" before the normal name, so as to make them maximally easy to remember. I also do not use version numbers on these. 
+
+Other short functions:
+There will be other short functions where I do not use my "FUNC_..." or version numbering conventions. These should generally be 1-few line functions which will almost certainly never need updating of the sort where past versions should be retained.

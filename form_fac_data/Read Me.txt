@@ -1,0 +1,40 @@
+Original form factor data sent to me (DP) from Maria at Berkeley on 5/1/19
+I put the data into a .xlsx file and killed the unimportant columns. In Excel, I scaled the frequencies up by the 0.185%, and saved the corrected version with a file name denoting as much. 
+
+
+
+Here is the email chain between me and Maria: 
+
+
+
+Yup! That's what we ended up doing for Phase I. The .185% shift was chosen to make the mode crossing frequency we see in the form factor simulations match the one we measured at Yale. I expect it'll be the same down at 4-5 GHz. 
+
+Best,
+
+Maria
+
+On Wed, May 1, 2019 at 10:28 AM Daniel Palken <dpalken13@gmail.com> wrote:
+Thanks Maria! This is exactly what I’m looking for. Let me confirm with you that I have the right frequency shift: I believe all I am supposed to do is multiply all the simulation frequencies by a factor of 1.00185 to account for thermal contraction. Is that right? 
+
+Dan
+
+
+On May 1, 2019, at 11:20 AM, Maria Simanovskaia <simanovskaia@berkeley.edu> wrote:
+
+Hi Dan, 
+
+Here's the simulated data for the form factor at 4-5 GHz. Note this is at room temperature, so to get the cold data you'd have to shift it all a bit in frequency. The relevant columns are the second (frequency) and the last (form factor). First column is the rotation angle in degrees, and third and fourth columns are the values of integrals computed by the simulations used to calculate the form factor (|E|^2 integral and E_z integral). 1.545 L is correct for the volume. Using 1.545 L, you will match the form factor values I'm sending to three decimal places, and there's no reason to trust the values past that. 
+
+Let us know if you have any more questions!
+
+Best,
+
+Maria
+
+On Wed, May 1, 2019 at 9:08 AM Daniel Palken <dpalken13@gmail.com> wrote:
+Hey Berkeley folks, 
+
+Could one of you send me the most detailed measurements (or simulations?) of the TM010 form factor as a function of frequency over the 4-4.5 GHz window (or whatever the full range you have is, if it goes broader than that)? Also - what is the precise volume you use for the cavity in calculating that form factor? I have 1.545 L written down - is that accurate? 
+
+Best, 
+Dan
