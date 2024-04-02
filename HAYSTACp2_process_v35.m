@@ -145,15 +145,15 @@ output_dir = 'output';
 
 data_files = UTIL_read_filenames(data_dir);
 
-for i = 1:numel(data_files)
-    data_run = data_files{i};
-    dv_main = '0'; 
-    data_runs = [data_runs, data_run]; 
-    run_batch = [run_batch, 1];
-end
+% for i = 1:numel(data_files)
+%     data_run = data_files{i};
+%     dv_main = '0'; 
+%     data_runs = [data_runs, data_run]; 
+%     run_batch = [run_batch, 1];
+% end
 
 % add runs one-by-one for ease of commenting out
-% data_runs = [data_runs, '20221114']; run_batch = [run_batch, 1];
+data_runs = [data_runs, '20221007']; run_batch = [run_batch, 1];
 % data_runs = [data_runs, '20190903']; run_batch = [run_batch, 1];
 % data_runs = [data_runs, '20190907']; run_batch = [run_batch, 1];
 % data_runs = [data_runs, '20190911']; run_batch = [run_batch, 1];
