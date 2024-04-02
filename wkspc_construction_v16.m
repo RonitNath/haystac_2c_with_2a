@@ -55,7 +55,7 @@ ver = 'v16'; % should match script name. Not for the data to be loaded
 
 % booleans:
 pt_monitor_for_add_noise = 0; % as of ref. [4], 11/23/19, I think it might be best not to pt_monitor
-save_figs = 01;
+save_figs = 00;
 
 % HAYSTAC universal parameters (same for all raw spectra, known externally):
 UNIV.B0_T = 8; % magentic field
@@ -143,13 +143,13 @@ rc_dir = 'refit_couplings';
 
 %% ============================================================================================== %%
 %% OUTPUT DIRECTORY
-output_folder = ['HAYSTACp2_raw_saved_', data_run, '_', ver];
+output_folder = [processing_dir, f, 'HAYSTACp2_raw_saved_', data_run, '_', ver];
 % create directory if necessary:
 if ~exist(output_folder, 'dir')
     mkdir(output_folder);
 end
 
-fig_folder = ['HAYSTACp2_wkspc_construction_figs_', data_run, '_', ver];
+fig_folder = [processing_dir, f, 'HAYSTACp2_wkspc_construction_figs_', data_run, '_', ver];
 % create directory if necessary:
 if ~exist(fig_folder, 'dir')
     mkdir(fig_folder);
@@ -159,13 +159,13 @@ end
 %% LOAD PARAMETERS + AUXILARY DATA
 % load summary (paramter - par) meta-data:
 par_wkspc = [data_run '_', dv_main, '_0_', meta_suf, '.mat'];
-par = load([data_run, f, par_wkspc]).par; % this struct contains all the meta-data
+par = load([data_dir, f, data_run, f, par_wkspc]).par; % this struct contains all the meta-data
 n_OPs = length(par); % extract the number of operating points (i.e. of raw spectra)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % load in the first of some of these files and do some simple extractions and checks:
-temp_tx1 = load([data_run, f, data_run '_', dv_main, '_1_', tx1_suf, '.mat']); 
-temp_spec = load([data_run, f, data_run '_', dv_main, '_1_', spec_suf, '.mat']); 
+temp_tx1 = load([data_dir, f, data_run, f, data_run '_', dv_main, '_1_', tx1_suf, '.mat']); 
+temp_spec = load([data_dir, f, data_run, f, data_run '_', dv_main, '_1_', spec_suf, '.mat']); 
 n_IF_fs = length(temp_spec.meanavgps.singlesided_freqaxis); % necessary for allocation
 % assumes linear spacing:
 raw_res_Hz = temp_spec.meanavgps.singlesided_freqaxis(3) - ...
@@ -205,10 +205,10 @@ rc.Q = [rc_1.Q];
 abg_exists = zeros(1, n_OPs+1); % the +1 is becasue the last cals are named as at a new OP
 add_noise_exists = zeros(1, n_OPs+1);
 for i = 1:n_OPs+1
-    if exist([data_run, f, data_run '_', dv_main, '_', num2str(i), '_', abg_suf, '.mat'], 'file')
+    if exist([data_dir, f, data_run, f, data_run '_', dv_main, '_', num2str(i), '_', abg_suf, '.mat'], 'file')
         abg_exists(i) = 1; 
     end 
-    if exist([data_run, f, data_run '_', dv_main, '_', num2str(i), '_', add_noise_suf, '.mat'], ...
+    if exist([data_dir, f, data_run, f, data_run '_', dv_main, '_', num2str(i), '_', add_noise_suf, '.mat'], ...
             'file')
         add_noise_exists(i) = 1; 
     end
@@ -251,11 +251,11 @@ while counting_i <= length(order)
     end
     
     % these workspaces apply at every operating point: 
-    tx1 = load([data_run, f, data_run '_', dv_main, '_', num2str(i), '_', tx1_suf, '.mat']); 
-    tx2 = load([data_run, f, data_run '_', dv_main, '_', num2str(i), '_', tx2_suf, '.mat']); 
-    rf = load([data_run, f, data_run '_', dv_main, '_', num2str(i), '_', rf_suf, '.mat']); 
-    spec = load([data_run, f, data_run '_', dv_main, '_', num2str(i), '_', spec_suf, '.mat']); 
-    G_AMP = load([data_run, f, data_run '_', dv_main, '_', num2str(i), '_', G_AMP_suf, '.mat']); 
+    tx1 = load([data_dir, f, data_run, f, data_run '_', dv_main, '_', num2str(i), '_', tx1_suf, '.mat']); 
+    tx2 = load([data_dir, f, data_run, f, data_run '_', dv_main, '_', num2str(i), '_', tx2_suf, '.mat']); 
+    rf = load([data_dir, f, data_run, f, data_run '_', dv_main, '_', num2str(i), '_', rf_suf, '.mat']); 
+    spec = load([data_dir, f, data_run, f, data_run '_', dv_main, '_', num2str(i), '_', spec_suf, '.mat']); 
+    G_AMP = load([data_dir, f, data_run, f, data_run '_', dv_main, '_', num2str(i), '_', G_AMP_suf, '.mat']); 
     
     % these ones are the same for all spectra
     OP_data.B0_T = UNIV.B0_T; 
@@ -365,7 +365,7 @@ while counting_i <= length(order)
     if is_full_cal_op % is an operating point where we perfom a full cal. These come first 
         % added noise calibration :
         % + 1 in file name because cals actually belong to the previous OP
-        add_noise = load([data_run, f, data_run '_', dv_main, '_', num2str(i+1), '_', ...
+        add_noise = load([data_dir, f, data_run, f, data_run '_', dv_main, '_', num2str(i+1), '_', ...
             add_noise_suf, '.mat']);
         % order as [cold, hot]
         T_VTS_K = [UNIV.T_f_K, UNIV.T_hot_K];
@@ -452,7 +452,7 @@ while counting_i <= length(order)
         
         % abg calibrations for hot road and squeezing:
         % + 1 in file name because cals actually belong to the previous OP
-        abg = load([data_run, f, data_run '_', dv_main, '_', num2str(i+1), '_', abg_suf, '.mat']); 
+        abg = load([data_dir, f, data_run, f, data_run '_', dv_main, '_', num2str(i+1), '_', abg_suf, '.mat']); 
         abg_gain_tone_det_MHz = y_fac_gain_tone_det_MHz; % same detuning for probe tone
 
         % step 2: calculate S_c over the entire range:

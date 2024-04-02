@@ -35,9 +35,9 @@ f = filesep;
 %% ============================================================================================== %%
 %% USER INPUT
 % boolean(s):
-plot_valfct = 01;
-plot_params = 01;
-plot_valid_param_space = 01; % plots a 2D map of the validity in parameter space
+plot_valfct = 00;
+plot_params = 00;
+plot_valid_param_space = 00; % plots a 2D map of the validity in parameter space
 
 n_f_IFs = 250;
 f_IF_min_int_kHz = 11;

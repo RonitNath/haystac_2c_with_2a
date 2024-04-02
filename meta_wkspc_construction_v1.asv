@@ -24,15 +24,15 @@ processing_dir = 'intermediary';
 
 data_files = UTIL_read_filenames(data_dir);
 
-for i = 1:numel(data_files)
+for i = numel(data_files)
     data_run = data_files{i};
     dv_main = '0'; 
-    try
+    % try
         wkspc_construction_v16; 
         disp([data_run ' test complete']);
-    catch exception
-        disp([data_run ' test failed: ' exception.message]);
-    end
+    % catch exception
+    %     disp([data_run ' test failed: ' exception.message]);
+    % end
 end
 
 % set globals and run workspace construction program

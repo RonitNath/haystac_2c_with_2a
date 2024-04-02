@@ -138,8 +138,22 @@ wkspc_construction_ver = 'v16';
 % names of the data runs
 data_runs = {}; % init empty
 run_batch = [];
+
+data_dir = 'input';
+processing_dir = 'intermediary';
+output_dir = 'output';
+
+data_files = UTIL_read_filenames(data_dir);
+
+for i = 1:numel(data_files)
+    data_run = data_files{i};
+    dv_main = '0'; 
+    data_runs = [data_runs, data_run]; 
+    run_batch = [run_batch, 1];
+end
+
 % add runs one-by-one for ease of commenting out
-data_runs = [data_runs, '20221111']; run_batch = [run_batch, 1];
+% data_runs = [data_runs, '20221114']; run_batch = [run_batch, 1];
 % data_runs = [data_runs, '20190903']; run_batch = [run_batch, 1];
 % data_runs = [data_runs, '20190907']; run_batch = [run_batch, 1];
 % data_runs = [data_runs, '20190911']; run_batch = [run_batch, 1];
@@ -189,14 +203,14 @@ man_cut_indices = [1,hi; ...
 print_timing = 01;
 rand_indiv_OP = 0; % select a random operating point to plot individual spectrum data from
 % shortcutting and bypassing:
-shortcut_IF_cuts = 01; % if 1, uses previously saved IF cuts. Auto-disables if no file found
-shortcut_SG_filtering = 01; % uses previously saved SG filters. Auto-disables if no file found
-save_IF_cuts_to_wkspc = 01; % only applies if shortcut_IF_cuts is 0
-save_SG_filters_to_wkspc = 01; % only applies if shortcut_SG_filtering is 0
-save_scan1excl_to_wkspc = 01; 
+shortcut_IF_cuts = 00; % if 1, uses previously saved IF cuts. Auto-disables if no file found
+shortcut_SG_filtering = 00; % uses previously saved SG filters. Auto-disables if no file found
+save_IF_cuts_to_wkspc = 00; % only applies if shortcut_IF_cuts is 0
+save_SG_filters_to_wkspc = 00; % only applies if shortcut_SG_filtering is 0
+save_scan1excl_to_wkspc = 00; 
 bypass_cav_spec = 1; % bypasses all cavity spectroscopy not at the selected operating point
 % plotting:
-plot_input_params = 01;
+plot_input_params = 00;
 plot_raw_spectra_IF = 00;
 plot_spec_cuts = 00;
 plot_raw_spectrum_RF = 00;
@@ -212,17 +226,17 @@ plot_noise_profile = 00;
 plot_resc_SNR = 00;
 plot_resc_spectrum_RF = 00;
 plot_comb_spectrum = 00;
-plot_and_hist_norm_comb_spectrum = 010
-plot_comb_autocor = 01;
+plot_and_hist_norm_comb_spectrum = 00
+plot_comb_autocor = 00;
 plot_axion_PDF = 01;
-plot_Lq = 01;
+plot_Lq = 00;
 plot_and_hist_norm_grand_spectrum = 01;
-plot_grand_autocor = 01;
+plot_grand_autocor = 00;
 plot_and_hist_renorm_grand_spectrum = 01;
 plot_excl = 01;
-save_figs = 01;
+save_figs = 00;
 % for histogramming some pre-comibined spectra, plot a subset of the naive and precise expectations:
-show_precomb_expected_Gaussians = 01;
+show_precomb_expected_Gaussians = 00;
 % for analysis plotting:
 show_LU_inset = 01;
 show_speedup_inset = 01;
@@ -277,7 +291,7 @@ if n_runs == 1
 else
     runs_name = 'multirun';
 end
-save_to_folder = ['save_to_', runs_name, '_proc_', ver];
+save_to_folder = [output_dir, f, 'save_to_', runs_name, '_proc_', ver];
 
 % for shortcutting:
 save_to_IF_cuts = 'IF_cuts.mat';
@@ -314,7 +328,7 @@ hi_cutoff_freq_pct = 99; % expressed as a number 0-100
 n_cands = 10;
 
 % frequentism:
-mu_target = 5.1; % look for 5.1 sigma axions in line with phase 1, run 1 (somewhat arbitrary)
+mu_target = 1.7; % look for 5.1 sigma axions in line with phase 1, run 1 (somewhat arbitrary)
 n_thresh_scans = 2; % note this explicitely assumed to be 2 at times
 
 % rescans: 
@@ -328,7 +342,7 @@ OP_dat_name = 'dat_HAYSTACp2_OP';
 % now load in some infomration needed for allocation:
 n_OPs = 0; % init 0
 for n = 1:n_runs
-    OP_dir = ['HAYSTACp2_raw_saved_', data_runs{n}, '_', wkspc_construction_ver];
+    OP_dir = [processing_dir, f, 'HAYSTACp2_raw_saved_', data_runs{n}, '_', wkspc_construction_ver];
     c = 0; % init 0 for each data run
     while exist([OP_dir, f, OP_dat_name, num2str(c+1), '.mat'], 'file')
         c = c + 1;
@@ -340,7 +354,7 @@ man_cut_indices(man_cut_indices > n_OPs) = n_OPs; % update manual cut indecies i
 
 % choose a directory to use as the temporary one:
 % this should be chosen such that it is the one with the most IF bins
-OP_dir_temp = ['HAYSTACp2_raw_saved_', data_runs{length(data_runs)}, '_', wkspc_construction_ver];
+OP_dir_temp = [processing_dir, f, 'HAYSTACp2_raw_saved_', data_runs{length(data_runs)}, '_', wkspc_construction_ver];
 
 temp_first_OP = load([OP_dir_temp, f, OP_dat_name , num2str(1)]).OP_data;
 n_ENA_fs_tx1 = length(temp_first_OP.ENA_f_tx1_GHz);
@@ -394,7 +408,7 @@ wb = waitbar(0, 'loading OP data...');
 
 abs_i = 1; % continues counting from run to run
 for n = 1:n_runs
-    OP_dir = ['HAYSTACp2_raw_saved_', data_runs{n}, '_', wkspc_construction_ver];
+    OP_dir = [processing_dir, f, 'HAYSTACp2_raw_saved_', data_runs{n}, '_', wkspc_construction_ver];
     i = 1; % resets to 1 at each data run
     while exist([OP_dir, f, OP_dat_name, num2str(i), '.mat'], 'file') % same condition as above
         load([OP_dir, f, OP_dat_name, num2str(i)]);
