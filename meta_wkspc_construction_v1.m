@@ -27,9 +27,9 @@ data_files = UTIL_read_filenames(data_dir);
 for i = 1:numel(data_files)
     data_run = data_files{i};
     dv_main = '0'; 
-    if i > 2
-        break
-    end
+    % if i > 2
+    %     break
+    % end
     % try
         wkspc_construction_v16; 
         disp([data_run ' test complete']);
