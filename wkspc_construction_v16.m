@@ -92,8 +92,8 @@ VF.crit.NHmin_1q = 5; % min allowed HEMT-referred added noise
 VF.crit.Gs_min_1q_pow = 0.02; % this is a lower bound for 1/squeezer gain
 VF.crit.Gs_max_1q_pow = 1;
 
-VF.hot_mult_min = 0.9;
-VF.hot_mult_max = 1.1; % nice to construct the max and min roughly symmetrically around 1
+VF.hot_mult_min = 0.8;
+VF.hot_mult_max = 1.05; % nice to construct the max and min roughly symmetrically around 1
 
 VF.GA_addnoise_scale_min_1q_dB = 20; 
 VF.GA_addnoise_scale_max_1q_dB = 30.5; 

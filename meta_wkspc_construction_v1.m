@@ -24,20 +24,23 @@ processing_dir = 'intermediary';
 
 data_files = UTIL_read_filenames(data_dir);
 
-% for i = 1:numel(data_files)
-%     data_run = data_files{i};
-%     dv_main = '0'; 
-%     try
-%         wkspc_construction_v16; 
-%         disp([data_run ' test complete']);
-%     catch exception
-%         disp([data_run ' test failed: ' exception.message]);
-%     end
-% end
+for i = 1:numel(data_files)
+    data_run = data_files{i};
+    dv_main = '0'; 
+    if i > 2
+        break
+    end
+    % try
+        wkspc_construction_v16; 
+        disp([data_run ' test complete']);
+    % catch exception
+    %     disp([data_run ' test failed: ' exception.message]);
+    % end
+end
 
 % set globals and run workspace construction program
 % try data_run = '20221103'; dv_main = '0'; wkspc_construction_v16; disp('test complete'); end
-data_run = '20221007'; dv_main = '0'; wkspc_construction_v16; disp('test complete');
+% data_run = '20221007'; dv_main = '0'; wkspc_construction_v16; disp('test complete');
 % data_run = '20221106'; dv_main = '0'; wkspc_construction_v16; disp('test complete');
 % data_run = '20221102'; dv_main = '0'; wkspc_construction_v16; disp('test complete');
 % data_run = '20221026'; dv_main = '0'; wkspc_construction_v16; disp('test complete');
